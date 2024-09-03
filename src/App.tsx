@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './App.css';
 import Grid from '@mui/material/Grid2';
 import LoginButton from "./components/login";
@@ -7,27 +7,26 @@ import InfoBox from "./components/InfoBox";
 import {useLocation} from "react-router-dom";
 import {Box, Button, Container, TextField} from "@mui/material";
 import {Auth0Provider} from "@auth0/auth0-react";
+import {AppContext} from "./contexts/AppContext";
 
 function App() {
 
   const location = useLocation();
+  const context = useContext(AppContext);
 
-  const [domain, setDomain] = useState("onesite-dev.eu.auth0.com");
   const [tempDomain, setTempDomain] = useState("onesite-dev.eu.auth0.com");
   const [errorDomain, setErrorDomain] = useState(false);
 
-  const [clientId, setClientId] = useState("");
   const [tempClientId, setTempClientId] = useState("");
   const [errorClientId, setErrorClientId] = useState(false);
 
-  const [redirectUri, setRedirectUri] = useState("http://localhost:9070/contents/login-auth0/index.html");
   const [tempRedirectUri, setTempRedirectUri] = useState("http://localhost:9070/contents/login-auth0/index.html");
   const [errorRedirectUri, setErrorRedirectUri] = useState(false);
 
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(true);
   const [error, setError] = useState(false);
 
-  const auth0ProviderKey = `${domain}-${clientId}-${redirectUri}`;
+  const auth0ProviderKey = `${context.domain}-${context.clientId}-${context.redirectUri}`;
 
   useEffect(() => {
       setError(errorDomain || errorClientId || errorRedirectUri);

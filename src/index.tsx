@@ -4,6 +4,8 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, Navigate, RouterProvider} from "react-router-dom";
 import App from "./App";
+import {AppContext, AppContextProvider} from "./contexts/AppContext";
+import * as domain from "node:domain";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +23,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+    <AppContextProvider>
       <RouterProvider router={router}/>
+    </AppContextProvider>
   </React.StrictMode>
 );
 
