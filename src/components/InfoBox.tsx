@@ -4,7 +4,7 @@ import './InfoBox.css';
 
 
 const InfoBox = (location: any) => {
-  const {isAuthenticated, user} = useAuth0();
+  const {isAuthenticated, user, getAccessTokenSilently} = useAuth0();
 
   // Create a URLSearchParams object to work with query parameters
   const queryParams = new URLSearchParams(location);
