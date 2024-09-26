@@ -1,15 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {createBrowserRouter, Navigate, RouterProvider} from "react-router-dom";
+import App from "./App";
+import {AppContext, AppContextProvider} from "./contexts/AppContext";
+import * as domain from "node:domain";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Navigate to="/contents/login-auth0/index.html"/>
+  },
+  {
+    path: "/contents/login-auth0/index.html",
+    element: <App/>
+  },
+]);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <AppContextProvider>
+      <RouterProvider router={router}/>
+    </AppContextProvider>
   </React.StrictMode>
 );
 
