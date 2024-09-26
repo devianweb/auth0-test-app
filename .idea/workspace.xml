@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42917d47-473d-4736-8852-a091dc2faba4" name="Changes" comment="It's alive!">
+    <list default="true" id="42917d47-473d-4736-8852-a091dc2faba4" name="Changes" comment="linting">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contexts/AppContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/AppContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +93,7 @@
       <workItem from="1727167988902" duration="5261000" />
       <workItem from="1727178791061" duration="589000" />
       <workItem from="1727183295413" duration="3264000" />
-      <workItem from="1727336908327" duration="14534000" />
+      <workItem from="1727336908327" duration="14866000" />
     </task>
     <task id="LOCAL-00001" summary="kind of working">
       <option name="closed" value="true" />
@@ -144,7 +143,23 @@
       <option name="project" value="LOCAL" />
       <updated>1727352086249</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="misc">
+      <option name="closed" value="true" />
+      <created>1727352275648</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1727352275648</updated>
+    </task>
+    <task id="LOCAL-00008" summary="linting">
+      <option name="closed" value="true" />
+      <created>1727352303218</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1727352303218</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -171,6 +186,8 @@
     <MESSAGE value="progress" />
     <MESSAGE value="refactoring" />
     <MESSAGE value="It's alive!" />
-    <option name="LAST_COMMIT_MESSAGE" value="It's alive!" />
+    <MESSAGE value="misc" />
+    <MESSAGE value="linting" />
+    <option name="LAST_COMMIT_MESSAGE" value="linting" />
   </component>
 </project>
