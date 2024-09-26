@@ -1,7 +1,7 @@
-import {useAuth0} from "@auth0/auth0-react";
+import {useAuth0, User} from "@auth0/auth0-react";
 import {Box, Divider} from "@mui/material";
 import './InfoBox.css';
-import {useEffect, useState} from "react";
+import {ReactElement, useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
 
 
@@ -9,16 +9,41 @@ const InfoBox = () => {
   const {isAuthenticated, user, getAccessTokenSilently} = useAuth0();
   const [token, setToken] = useState("");
 
-  // Create a URLSearchParams object to work with query parameters
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
-  const printQueryParams = () => {
+  const printQueryParams = (): ReactElement => {
     return <Box>
-      {Array.from(queryParams.entries()).map(([key, value]) => (
-        <p key={key} style={{paddingLeft: "10px"}}>"{key}": "{value}"</p>
-      ))}
+      {queryParams.size === 0
+        ? <></>
+        : <>
+          <h4 className="subtitle">query parameters</h4>
+          <Divider className="divider"/>
+          {Array.from(queryParams.entries()).map(([key, value]) => (
+            <p key={key} style={{paddingLeft: "10px"}}>"{key}": "{value}"</p>
+          ))}
+        </>
+      }
     </Box>
+  }
+
+  const getUserEntries = (): ReactElement => {
+    const entries = user !== undefined ? Object.entries(user) : [];
+    return <>
+      {entries.map((entry) => {
+        return <p key={entry[0]}>{entry[0]}: {entry[1]}</p>;
+      })}
+    </>;
+  }
+
+  const printToken = (): ReactElement => {
+    return isAuthenticated
+      ? <>
+        <h4 className="subtitle">token</h4>
+        <Divider className="divider"/>
+        <p>{token}</p>
+      </>
+      : <></>;
   }
 
   useEffect(() => {
@@ -30,6 +55,11 @@ const InfoBox = () => {
       value().catch(console.error);
     }
   }, [isAuthenticated, getAccessTokenSilently]);
+
+  //user logging
+  // useEffect(() => {
+  //   console.log(user);
+  // }, [user]);
 
   //token logging
   // useEffect(() => {
@@ -44,18 +74,10 @@ const InfoBox = () => {
     }}>
       <h4 className="subtitle">auth0 state</h4>
       <Divider className="divider"/>
-      <Box sx={{
-        display: "flex",
-        flexDirection: "column"
-      }}>
-        <p>isAuthenticated: {isAuthenticated ? "true" : "false"}</p>
-        <p>user email: {user ? user.email : "no email to display"}</p>
-      </Box>
-      <h4 className="subtitle">query parameters</h4>
-      <Divider className="divider"/>
-      {queryParams.size === 0 ? <p>nothing to display</p> : printQueryParams()}
-      <Divider className="divider"/>
-      <p>token: {token}</p>
+      <p>isAuthenticated: {isAuthenticated ? "true" : "false"}</p>
+      {getUserEntries()}
+      {printQueryParams()}
+      {printToken()}
     </Box>
 
   );

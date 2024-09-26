@@ -9,7 +9,7 @@ import AuthButtons from "./components/AuthButtons";
 
 function App() {
 
-  const {domain, setDomain, clientId, setClientId, redirectUri, setRedirectUri, logoutUrl, setLogoutUrl} = useContext(AppContext);
+  const {domain, setDomain, clientId, setClientId, redirectUri, setRedirectUri, logoutUrl, setLogoutUrl, audience, setAudience, scope, setScope} = useContext(AppContext);
 
   const [contextPopulated, setContextPopulated] = useState(false);
 
@@ -25,10 +25,16 @@ function App() {
   const [tempLogoutUrl, setTempLogoutUrl] = useState(redirectUri);
   const [errorLogoutUrl, setErrorLogoutUrl] = useState(false);
 
+  const [tempAudience, setTempAudience] = useState(audience);
+  const [errorAudience, setErrorAudience] = useState(false);
+
+  const [tempScope, setTempScope] = useState(scope);
+  const [errorScope, setErrorScope] = useState(false);
+
   const [editing, setEditing] = useState(true);
   const [error, setError] = useState(true);
 
-  const auth0ProviderKey = `${domain}-${clientId}-${redirectUri}`;
+  const auth0ProviderKey = `${domain}-${clientId}-${redirectUri}-${logoutUrl}-${audience}-${scope}`;
 
   const isEmpty = (value: string): boolean => {
     return value === null || value.trim().length === 0
@@ -36,14 +42,19 @@ function App() {
 
   const handleSave = (): void => {
     setDomain(tempDomain);
-    localStorage.setItem("domain", tempDomain)
+    localStorage.setItem("domain", tempDomain);
     setClientId(tempClientId);
-    localStorage.setItem("clientId", tempClientId)
+    localStorage.setItem("clientId", tempClientId);
     setRedirectUri(tempRedirectUri);
-    localStorage.setItem("redirectUri", tempRedirectUri)
-    setLogoutUrl(tempLogoutUrl)
-    localStorage.setItem("logoutUrl", tempLogoutUrl)
-    if (!errorDomain && !errorClientId && !errorRedirectUri && !errorLogoutUrl) {
+    localStorage.setItem("redirectUri", tempRedirectUri);
+    setLogoutUrl(tempLogoutUrl);
+    localStorage.setItem("logoutUrl", tempLogoutUrl);
+    setAudience(tempAudience);
+    localStorage.setItem("audience", tempAudience);
+    setAudience(tempAudience);
+    localStorage.setItem("scope", tempScope);
+    setScope(tempScope);
+    if (!checkFieldErrors()) {
       setEditing(false);
     }
   }
@@ -54,6 +65,8 @@ function App() {
     setTempClientId(clientId);
     setTempRedirectUri(redirectUri);
     setTempLogoutUrl(logoutUrl);
+    setTempAudience(audience);
+    setTempScope(scope);
   }
 
   const handleEdit = (): void => {
@@ -65,7 +78,7 @@ function App() {
     setTempValueError: (value: React.SetStateAction<boolean>) => void,
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     setTempValue(event.target.value);
-    event.target.value ? setTempValueError(false) : setTempValueError(true);
+    setTempValueError(isEmpty(event.target.value));
   }
 
   const populateValueFromContext = (
@@ -81,21 +94,24 @@ function App() {
     return (domain === null || domain.trim().length === 0)
       || (clientId === null || clientId.trim().length === 0)
       || (redirectUri === null || redirectUri.trim().length === 0)
-      || (logoutUrl === null || logoutUrl.trim().length === 0);
-  }, [domain, clientId, redirectUri, logoutUrl])
+      || (logoutUrl === null || logoutUrl.trim().length === 0)
+      || (audience === null || audience.trim().length === 0)
+      || (scope === null || scope.trim().length === 0);
+  }, [domain, clientId, redirectUri, logoutUrl, audience, scope])
 
   const checkFieldErrors = useCallback((): boolean => {
-    return errorDomain || errorClientId || errorRedirectUri || errorLogoutUrl;
-  }, [errorDomain, errorClientId, errorRedirectUri, errorLogoutUrl])
+    return errorDomain || errorClientId || errorRedirectUri || errorLogoutUrl || errorAudience || errorScope;
+  }, [errorDomain, errorClientId, errorRedirectUri, errorLogoutUrl, errorAudience, errorScope])
 
   //on load, check local storage and populate fields
   useEffect(() => {
-    console.log("Context being updated from local storage...");
     populateValueFromContext(setDomain, "domain");
     populateValueFromContext(setClientId, "clientId");
     populateValueFromContext(setRedirectUri, "redirectUri");
     populateValueFromContext(setLogoutUrl, "logoutUrl");
-  }, [setDomain, setClientId, setRedirectUri, setLogoutUrl]);
+    populateValueFromContext(setAudience, "audience");
+    populateValueFromContext(setScope, "scope");
+  }, [setDomain, setClientId, setRedirectUri, setLogoutUrl, setAudience, setScope]);
 
   useEffect(() => {
     setContextPopulated(!checkContextErrors())
@@ -111,7 +127,9 @@ function App() {
     if (!isEmpty(clientId)) setTempClientId(clientId);
     if (!isEmpty(redirectUri)) setTempRedirectUri(redirectUri);
     if (!isEmpty(logoutUrl)) setTempLogoutUrl(logoutUrl);
-  }, [domain, clientId, redirectUri, logoutUrl]);
+    if (!isEmpty(audience)) setTempAudience(audience);
+    if (!isEmpty(scope)) setTempScope(scope);
+  }, [domain, clientId, redirectUri, logoutUrl, audience, scope]);
 
   //field validation errors
   useEffect(() => {
@@ -119,7 +137,9 @@ function App() {
     setErrorClientId(isEmpty(tempClientId));
     setErrorRedirectUri(isEmpty(tempRedirectUri));
     setErrorLogoutUrl(isEmpty(tempLogoutUrl));
-  }, [tempDomain, tempClientId, tempRedirectUri, tempLogoutUrl]);
+    setErrorAudience(isEmpty(tempAudience));
+    setErrorScope(isEmpty(tempScope));
+  }, [tempDomain, tempClientId, tempRedirectUri, tempLogoutUrl, tempAudience, tempScope]);
 
   //overall error state
   useEffect(() => {
@@ -133,7 +153,6 @@ function App() {
   //checks for context errors
   useEffect(() => {
     if (checkContextErrors()) {
-      console.log("setting error to true");
       setError(true);
     } else {
       setError(false);
@@ -149,12 +168,24 @@ function App() {
   // }, [error, editing, contextPopulated]);
 
   // context logging
-  // useEffect(() => {
-  //   console.log("domain: " + domain);
-  //   console.log("clientId: " + clientId);
-  //   console.log("redirectUri: " + redirectUri);
-  //   console.log("logoutUrl: " + logoutUrl);
-  // }, [domain, clientId, redirectUri, logoutUrl]);
+  useEffect(() => {
+    console.log("domain: " + domain);
+    console.log("clientId: " + clientId);
+    console.log("temp clientId: " + tempClientId);
+
+    console.log("redirectUri: " + redirectUri);
+    console.log("temp redirectUri: " + tempRedirectUri);
+
+    console.log("logoutUrl: " + logoutUrl);
+    console.log("temp logoutUrl: " + tempLogoutUrl);
+
+    console.log("audience: " + audience);
+    console.log("temp audience: " + tempAudience);
+
+    console.log("scope: " + scope);
+    console.log("temp scope: " + tempScope);
+
+  }, [domain, clientId, redirectUri, logoutUrl, audience, scope, tempAudience, tempScope]);
 
   return (
     <Container sx={{
@@ -179,6 +210,10 @@ function App() {
                      error={errorRedirectUri} onChange={(event) => handleChange(setTempRedirectUri, setErrorRedirectUri, event)}/>
           <TextField label="logoutUrl" helperText={errorLogoutUrl ? "cannot be empty" : ""} value={editing ? tempLogoutUrl : logoutUrl} fullWidth disabled={!editing}
                      error={errorLogoutUrl} onChange={(event) => handleChange(setTempLogoutUrl, setErrorLogoutUrl, event)}/>
+          <TextField label="audience" helperText={errorAudience ? "cannot be empty" : ""} value={editing ? tempAudience : audience} fullWidth disabled={!editing}
+                     error={errorAudience} onChange={(event) => handleChange(setTempAudience, setErrorAudience, event)}/>
+          <TextField label="scope" helperText={errorScope ? "cannot be empty" : ""} value={editing ? tempScope : scope} fullWidth disabled={!editing}
+                     error={errorScope} onChange={(event) => handleChange(setTempScope, setErrorScope, event)}/>
           {
             editing
               ? <Box sx={{display: "flex", gap: "10px", alignSelf: "end"}}>
@@ -193,14 +228,14 @@ function App() {
           domain={domain}
           clientId={clientId}
           authorizationParams={{
-            audience: "https://api.ii.co.uk/enrolled",
+            audience: audience,
             redirect_uri: redirectUri,
-            scope: "ii360:base"
+            scope: scope
           }}
         >
           <AuthButtons isError={error} isEditing={editing}/>
           <Grid size={12}>
-            <InfoBox />
+            <InfoBox/>
           </Grid>
         </Auth0Provider>
       </Grid>

@@ -8,10 +8,12 @@ const LogoutButton = ({isDisabled}: { isDisabled: boolean }) => {
   const {logout, isAuthenticated} = useAuth0();
   const {logoutUrl} = useContext(AppContext);
 
+  const handleLogout = (): void => {
+    logout({logoutParams: {returnTo: logoutUrl}});
+  }
+
   return (
-    <Button disabled={!isAuthenticated || isDisabled} variant="contained" onClick={() => logout({logoutParams: {returnTo: logoutUrl}})}>
-      Log Out
-    </Button>
+    <Button disabled={!isAuthenticated || isDisabled} variant="contained" onClick={() => handleLogout()}>Log Out</Button>
   );
 };
 
