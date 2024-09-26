@@ -87,7 +87,6 @@ function App() {
   ): void => {
     const value = localStorage.getItem(name);
     if (value) setContext(value);
-
   }
 
   const checkContextErrors = useCallback((): boolean => {
@@ -168,24 +167,24 @@ function App() {
   // }, [error, editing, contextPopulated]);
 
   // context logging
-  useEffect(() => {
-    console.log("domain: " + domain);
-    console.log("clientId: " + clientId);
-    console.log("temp clientId: " + tempClientId);
-
-    console.log("redirectUri: " + redirectUri);
-    console.log("temp redirectUri: " + tempRedirectUri);
-
-    console.log("logoutUrl: " + logoutUrl);
-    console.log("temp logoutUrl: " + tempLogoutUrl);
-
-    console.log("audience: " + audience);
-    console.log("temp audience: " + tempAudience);
-
-    console.log("scope: " + scope);
-    console.log("temp scope: " + tempScope);
-
-  }, [domain, clientId, redirectUri, logoutUrl, audience, scope, tempAudience, tempScope]);
+  // useEffect(() => {
+  //   console.log("domain: " + domain);
+  //   console.log("clientId: " + clientId);
+  //   console.log("temp clientId: " + tempClientId);
+  //
+  //   console.log("redirectUri: " + redirectUri);
+  //   console.log("temp redirectUri: " + tempRedirectUri);
+  //
+  //   console.log("logoutUrl: " + logoutUrl);
+  //   console.log("temp logoutUrl: " + tempLogoutUrl);
+  //
+  //   console.log("audience: " + audience);
+  //   console.log("temp audience: " + tempAudience);
+  //
+  //   console.log("scope: " + scope);
+  //   console.log("temp scope: " + tempScope);
+  //
+  // }, [domain, clientId, redirectUri, logoutUrl, audience, scope, tempAudience, tempScope]);
 
   return (
     <Container sx={{

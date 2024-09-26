@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42917d47-473d-4736-8852-a091dc2faba4" name="Changes" comment="refactoring">
+    <list default="true" id="42917d47-473d-4736-8852-a091dc2faba4" name="Changes" comment="It's alive!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/InfoBox.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/InfoBox.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/InfoBox.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/InfoBox.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/logout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/logout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/contexts/AppContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/AppContext.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -99,7 +94,7 @@
       <workItem from="1727167988902" duration="5261000" />
       <workItem from="1727178791061" duration="589000" />
       <workItem from="1727183295413" duration="3264000" />
-      <workItem from="1727336908327" duration="14087000" />
+      <workItem from="1727336908327" duration="14534000" />
     </task>
     <task id="LOCAL-00001" summary="kind of working">
       <option name="closed" value="true" />
@@ -141,7 +136,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727345775334</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="It's alive!">
+      <option name="closed" value="true" />
+      <created>1727352086249</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1727352086249</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -167,6 +170,7 @@
     <MESSAGE value="token generation working for QA" />
     <MESSAGE value="progress" />
     <MESSAGE value="refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactoring" />
+    <MESSAGE value="It's alive!" />
+    <option name="LAST_COMMIT_MESSAGE" value="It's alive!" />
   </component>
 </project>

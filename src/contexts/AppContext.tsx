@@ -34,7 +34,7 @@ const defaultContext: AppContextType = {
 const AppContext = React.createContext<AppContextType>(defaultContext);
 
 const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
-  const [domain, setDomain] = useState("onesite-dev.eu.auth0.com");
+  const [domain, setDomain] = useState("");
   const [clientId, setClientId] = useState("");
   const [redirectUri, setRedirectUri] = useState("");
   const [logoutUrl, setLogoutUrl] = useState("");
