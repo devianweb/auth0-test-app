@@ -1,17 +1,14 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
 import './App.css';
 import Grid from '@mui/material/Grid2';
-import LoginButton from "./components/login";
-import LogoutButton from "./components/logout";
 import InfoBox from "./components/InfoBox";
-import {useLocation} from "react-router-dom";
 import {Box, Button, Container, TextField} from "@mui/material";
 import {Auth0Provider} from "@auth0/auth0-react";
 import {AppContext} from "./contexts/AppContext";
+import AuthButtons from "./components/AuthButtons";
 
 function App() {
 
-  const location = useLocation();
   const {domain, setDomain, clientId, setClientId, redirectUri, setRedirectUri, logoutUrl, setLogoutUrl} = useContext(AppContext);
 
   const [contextPopulated, setContextPopulated] = useState(false);
@@ -76,12 +73,8 @@ function App() {
     name: string
   ): void => {
     const value = localStorage.getItem(name);
-    if (value) {
-      console.log(`setting ${name}...`)
-      setContext(value);
-    } else {
-      console.log(`no value found for ${name}`)
-    }
+    if (value) setContext(value);
+
   }
 
   const checkContextErrors = useCallback((): boolean => {
@@ -205,19 +198,9 @@ function App() {
             scope: "ii360:base"
           }}
         >
-          <Grid
-            size={12}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "10px"
-            }}>
-              <LogoutButton isDisabled={editing || error} logoutUrl={logoutUrl}/>
-              <LoginButton isDisabled={editing || error}/>
-          </Grid>
+          <AuthButtons isError={error} isEditing={editing}/>
           <Grid size={12}>
-            <InfoBox location={location}/>
+            <InfoBox />
           </Grid>
         </Auth0Provider>
       </Grid>

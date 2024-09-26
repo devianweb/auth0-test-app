@@ -4,13 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42917d47-473d-4736-8852-a091dc2faba4" name="Changes" comment="token generation working for QA">
+    <list default="true" id="42917d47-473d-4736-8852-a091dc2faba4" name="Changes" comment="progress">
+      <change afterPath="$PROJECT_DIR$/src/components/AuthButtons.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/logout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/InfoBox.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/InfoBox.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/TokenButton.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/logout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/logout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/logout.jsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +22,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -96,7 +98,7 @@
       <workItem from="1727167988902" duration="5261000" />
       <workItem from="1727178791061" duration="589000" />
       <workItem from="1727183295413" duration="3264000" />
-      <workItem from="1727336908327" duration="6566000" />
+      <workItem from="1727336908327" duration="8184000" />
     </task>
     <task id="LOCAL-00001" summary="kind of working">
       <option name="closed" value="true" />
@@ -122,7 +124,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727174323275</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="progress">
+      <option name="closed" value="true" />
+      <created>1727344203209</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1727344203209</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -146,6 +156,18 @@
     <MESSAGE value="kind of working" />
     <MESSAGE value="pre jamf" />
     <MESSAGE value="token generation working for QA" />
-    <option name="LAST_COMMIT_MESSAGE" value="token generation working for QA" />
+    <MESSAGE value="progress" />
+    <option name="LAST_COMMIT_MESSAGE" value="progress" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/components/InfoBox.tsx</url>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

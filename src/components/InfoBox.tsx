@@ -2,22 +2,22 @@ import {useAuth0} from "@auth0/auth0-react";
 import {Box, Divider} from "@mui/material";
 import './InfoBox.css';
 import {useEffect, useState} from "react";
+import {useLocation} from "react-router-dom";
 
 
-const InfoBox = (location: any) => {
+const InfoBox = () => {
   const {isAuthenticated, user, getAccessTokenSilently} = useAuth0();
   const [token, setToken] = useState("");
 
   // Create a URLSearchParams object to work with query parameters
-  const queryParams = new URLSearchParams(location);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
 
   const printQueryParams = () => {
     return <Box>
-      <p>{`{`}</p>
       {Array.from(queryParams.entries()).map(([key, value]) => (
         <p key={key} style={{paddingLeft: "10px"}}>"{key}": "{value}"</p>
       ))}
-      <p>{`}`}</p>
     </Box>
   }
 
@@ -29,7 +29,7 @@ const InfoBox = (location: any) => {
       };
       value().catch(console.error);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, getAccessTokenSilently]);
 
   //token logging
   // useEffect(() => {
@@ -54,6 +54,8 @@ const InfoBox = (location: any) => {
       <h4 className="subtitle">query parameters</h4>
       <Divider className="divider"/>
       {queryParams.size === 0 ? <p>nothing to display</p> : printQueryParams()}
+      <Divider className="divider"/>
+      <p>token: {token}</p>
     </Box>
 
   );
