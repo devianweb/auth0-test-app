@@ -1,4 +1,4 @@
-import {useAuth0, User} from "@auth0/auth0-react";
+import {useAuth0} from "@auth0/auth0-react";
 import {Box, Divider} from "@mui/material";
 import './InfoBox.css';
 import {ReactElement, useEffect, useState} from "react";

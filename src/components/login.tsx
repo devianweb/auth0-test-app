@@ -4,8 +4,7 @@ import {Button} from "@mui/material";
 import {AppContext} from "../contexts/AppContext";
 
 const LoginButton = ({isDisabled}: { isDisabled: boolean }) => {
-  const {loginWithRedirect, logout, isAuthenticated} = useAuth0();
-  const {logoutUrl} = useContext(AppContext);
+  const {loginWithRedirect, isAuthenticated} = useAuth0();
 
   const handleLogin = async () => {
     loginWithRedirect({
