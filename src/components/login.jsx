@@ -3,16 +3,16 @@ import React, {useState} from "react";
 import {Button} from "@mui/material";
 
 const LoginButton = ({isDisabled}) => {
-  const {loginWithPopup} = useAuth0();
+  const {loginWithRedirect, isAuthenticated} = useAuth0();
 
   const handleLogin = async () => {
-    await loginWithPopup({
+    await loginWithRedirect({
       audience: "https://api.ii.co.uk/enrolled",
       scope: "ii360:base"
     });
   }
 
-  return <Button disabled={isDisabled} variant="contained" onClick={() => handleLogin()}>Log In</Button>;
+  return <Button disabled={isAuthenticated || isDisabled} variant="contained" onClick={() => handleLogin()}>Log In</Button>;
 };
 
 export default LoginButton;

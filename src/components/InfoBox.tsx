@@ -1,10 +1,12 @@
 import {useAuth0} from "@auth0/auth0-react";
 import {Box, Divider} from "@mui/material";
 import './InfoBox.css';
+import {useEffect, useState} from "react";
 
 
 const InfoBox = (location: any) => {
   const {isAuthenticated, user, getAccessTokenSilently} = useAuth0();
+  const [token, setToken] = useState("");
 
   // Create a URLSearchParams object to work with query parameters
   const queryParams = new URLSearchParams(location);
@@ -18,6 +20,21 @@ const InfoBox = (location: any) => {
       <p>{`}`}</p>
     </Box>
   }
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const value = async () => {
+        const data = await getAccessTokenSilently();
+        setToken(data);
+      };
+      value().catch(console.error);
+    }
+  }, [isAuthenticated]);
+
+  //token logging
+  // useEffect(() => {
+  //   console.log("token: " + token);
+  // }, [token]);
 
   return (
     <Box sx={{

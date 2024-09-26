@@ -4,15 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42917d47-473d-4736-8852-a091dc2faba4" name="Changes" comment="pre jamf">
-      <change afterPath="$PROJECT_DIR$/src/components/TokenButton.tsx" afterDir="false" />
+    <list default="true" id="42917d47-473d-4736-8852-a091dc2faba4" name="Changes" comment="token generation working for QA">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/InfoBox.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/InfoBox.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/TokenButton.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/logout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/logout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contexts/AppContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/AppContext.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +39,9 @@
     &quot;accountId&quot;: &quot;482d3cee-2671-463e-a88e-1095ce449f1f&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -92,7 +93,10 @@
       <workItem from="1725351953118" duration="1131000" />
       <workItem from="1725354362151" duration="4411000" />
       <workItem from="1725358860535" duration="29000" />
-      <workItem from="1727167988902" duration="4363000" />
+      <workItem from="1727167988902" duration="5261000" />
+      <workItem from="1727178791061" duration="589000" />
+      <workItem from="1727183295413" duration="3264000" />
+      <workItem from="1727336908327" duration="6566000" />
     </task>
     <task id="LOCAL-00001" summary="kind of working">
       <option name="closed" value="true" />
@@ -110,7 +114,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725358603331</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="token generation working for QA">
+      <option name="closed" value="true" />
+      <created>1727174323275</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1727174323275</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -133,6 +145,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="kind of working" />
     <MESSAGE value="pre jamf" />
-    <option name="LAST_COMMIT_MESSAGE" value="pre jamf" />
+    <MESSAGE value="token generation working for QA" />
+    <option name="LAST_COMMIT_MESSAGE" value="token generation working for QA" />
   </component>
 </project>

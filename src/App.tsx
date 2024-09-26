@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import './App.css';
 import Grid from '@mui/material/Grid2';
 import LoginButton from "./components/login";
@@ -6,15 +6,15 @@ import LogoutButton from "./components/logout";
 import InfoBox from "./components/InfoBox";
 import {useLocation} from "react-router-dom";
 import {Box, Button, Container, TextField} from "@mui/material";
-import {Auth0Provider, useAuth0} from "@auth0/auth0-react";
+import {Auth0Provider} from "@auth0/auth0-react";
 import {AppContext} from "./contexts/AppContext";
-import TokenButton from "./components/TokenButton";
 
 function App() {
 
-  const {isAuthenticated} = useAuth0();
   const location = useLocation();
   const {domain, setDomain, clientId, setClientId, redirectUri, setRedirectUri, logoutUrl, setLogoutUrl} = useContext(AppContext);
+
+  const [contextPopulated, setContextPopulated] = useState(false);
 
   const [tempDomain, setTempDomain] = useState(domain);
   const [errorDomain, setErrorDomain] = useState(false);
@@ -31,64 +31,27 @@ function App() {
   const [editing, setEditing] = useState(true);
   const [error, setError] = useState(true);
 
-  const [token, setToken] = useState("");
-
   const auth0ProviderKey = `${domain}-${clientId}-${redirectUri}`;
 
-  useEffect(() => {
-    setErrorDomain(tempDomain === null || tempDomain.trim().length === 0);
-    setErrorClientId(tempClientId === null || tempClientId.trim().length === 0);
-    setErrorRedirectUri(tempRedirectUri === null || tempRedirectUri.trim().length === 0);
-    setErrorLogoutUrl(tempLogoutUrl === null || tempLogoutUrl.trim().length === 0);
-  }, [tempDomain, tempClientId, tempRedirectUri, tempLogoutUrl]);
-
-  const checkContextError = () => {
-    console.log("domain check: " + domain === null || domain.trim().length === 0)
-    console.log("clientId check: " + clientId === null || clientId.trim().length === 0)
-    console.log("redirectUri check: " + redirectUri === null || redirectUri.trim().length === 0)
-    console.log("logoutUrl check: " + logoutUrl === null || logoutUrl.trim().length === 0)
-    return (domain === null || domain.trim().length === 0)
-      || (clientId === null || clientId.trim().length === 0)
-      || (redirectUri === null || redirectUri.trim().length === 0)
-      || (logoutUrl === null || logoutUrl.trim().length === 0);
+  const isEmpty = (value: string): boolean => {
+    return value === null || value.trim().length === 0
   }
 
-  //error logging
-  useEffect(() => {
-    console.log("error: " + error);
-  }, [error]);
-
-  //context logging
-  useEffect(() => {
-    console.log("domain: " + domain);
-    console.log("clientId: " + clientId);
-    console.log("redirectUri: " + redirectUri);
-    console.log("logoutUrl: " + logoutUrl);
-  }, [domain, clientId, redirectUri, logoutUrl]);
-
-  //checks for context errors
-  useEffect(() => {
-    if (checkContextError()) {
-      console.log("setting error to true");
-      setError(true);
-    } else {
-      setError(false);
-    }
-  }, [editing, domain, clientId, redirectUri, logoutUrl]);
-
-  const handleSave = () => {
+  const handleSave = (): void => {
     setDomain(tempDomain);
+    localStorage.setItem("domain", tempDomain)
     setClientId(tempClientId);
+    localStorage.setItem("clientId", tempClientId)
     setRedirectUri(tempRedirectUri);
+    localStorage.setItem("redirectUri", tempRedirectUri)
     setLogoutUrl(tempLogoutUrl)
-
-    //do I need this check?
-    if (tempDomain && tempClientId && tempRedirectUri && tempLogoutUrl) {
+    localStorage.setItem("logoutUrl", tempLogoutUrl)
+    if (!errorDomain && !errorClientId && !errorRedirectUri && !errorLogoutUrl) {
       setEditing(false);
     }
   }
 
-  const handleCancel = () => {
+  const handleCancel = (): void => {
     setEditing(false)
     setTempDomain(domain);
     setTempClientId(clientId);
@@ -96,17 +59,109 @@ function App() {
     setTempLogoutUrl(logoutUrl);
   }
 
-  const handleEdit = () => {
+  const handleEdit = (): void => {
     setEditing(true)
   }
 
   const handleChange = (
-    setTempDomain: (value: React.SetStateAction<string>) => void,
-    setTempDomainError: (value: React.SetStateAction<boolean>) => void,
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setTempDomain(event.target.value);
-    event.target.value ? setTempDomainError(false) : setTempDomainError(true);
+    setTempValue: (value: React.SetStateAction<string>) => void,
+    setTempValueError: (value: React.SetStateAction<boolean>) => void,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    setTempValue(event.target.value);
+    event.target.value ? setTempValueError(false) : setTempValueError(true);
   }
+
+  const populateValueFromContext = (
+    setContext: (value: React.SetStateAction<string>) => void,
+    name: string
+  ): void => {
+    const value = localStorage.getItem(name);
+    if (value) {
+      console.log(`setting ${name}...`)
+      setContext(value);
+    } else {
+      console.log(`no value found for ${name}`)
+    }
+  }
+
+  const checkContextErrors = useCallback((): boolean => {
+    return (domain === null || domain.trim().length === 0)
+      || (clientId === null || clientId.trim().length === 0)
+      || (redirectUri === null || redirectUri.trim().length === 0)
+      || (logoutUrl === null || logoutUrl.trim().length === 0);
+  }, [domain, clientId, redirectUri, logoutUrl])
+
+  const checkFieldErrors = useCallback((): boolean => {
+    return errorDomain || errorClientId || errorRedirectUri || errorLogoutUrl;
+  }, [errorDomain, errorClientId, errorRedirectUri, errorLogoutUrl])
+
+  //on load, check local storage and populate fields
+  useEffect(() => {
+    console.log("Context being updated from local storage...");
+    populateValueFromContext(setDomain, "domain");
+    populateValueFromContext(setClientId, "clientId");
+    populateValueFromContext(setRedirectUri, "redirectUri");
+    populateValueFromContext(setLogoutUrl, "logoutUrl");
+  }, [setDomain, setClientId, setRedirectUri, setLogoutUrl]);
+
+  useEffect(() => {
+    setContextPopulated(!checkContextErrors())
+  }, [checkContextErrors]);
+
+  useEffect(() => {
+    if (contextPopulated) setEditing(false);
+  }, [contextPopulated]);
+
+  //if domain updates, update temp values if domain isn't empty
+  useEffect(() => {
+    if (!isEmpty(domain)) setTempDomain(domain);
+    if (!isEmpty(clientId)) setTempClientId(clientId);
+    if (!isEmpty(redirectUri)) setTempRedirectUri(redirectUri);
+    if (!isEmpty(logoutUrl)) setTempLogoutUrl(logoutUrl);
+  }, [domain, clientId, redirectUri, logoutUrl]);
+
+  //field validation errors
+  useEffect(() => {
+    setErrorDomain(isEmpty(tempDomain));
+    setErrorClientId(isEmpty(tempClientId));
+    setErrorRedirectUri(isEmpty(tempRedirectUri));
+    setErrorLogoutUrl(isEmpty(tempLogoutUrl));
+  }, [tempDomain, tempClientId, tempRedirectUri, tempLogoutUrl]);
+
+  //overall error state
+  useEffect(() => {
+    if (checkFieldErrors()) {
+      setError(true);
+    } else {
+      setError(false);
+    }
+  }, [checkFieldErrors]);
+
+  //checks for context errors
+  useEffect(() => {
+    if (checkContextErrors()) {
+      console.log("setting error to true");
+      setError(true);
+    } else {
+      setError(false);
+    }
+  }, [checkContextErrors]);
+
+
+  // state logging
+  // useEffect(() => {
+  //   console.log("editing: " + editing);
+  //   console.log("error: " + error);
+  //   console.log("contextPopulated: " + contextPopulated);
+  // }, [error, editing, contextPopulated]);
+
+  // context logging
+  // useEffect(() => {
+  //   console.log("domain: " + domain);
+  //   console.log("clientId: " + clientId);
+  //   console.log("redirectUri: " + redirectUri);
+  //   console.log("logoutUrl: " + logoutUrl);
+  // }, [domain, clientId, redirectUri, logoutUrl]);
 
   return (
     <Container sx={{
@@ -134,7 +189,7 @@ function App() {
           {
             editing
               ? <Box sx={{display: "flex", gap: "10px", alignSelf: "end"}}>
-                <Button variant="contained" onClick={handleSave} disabled={errorDomain || errorClientId || errorRedirectUri}>save</Button>
+                <Button variant="contained" onClick={handleSave} disabled={error}>save</Button>
                 <Button variant="contained" sx={{alignSelf: "end"}} onClick={handleCancel} disabled={error}>cancel</Button>
               </Box>
               : <Button variant="contained" sx={{alignSelf: "end"}} onClick={handleEdit}>edit</Button>
@@ -158,13 +213,11 @@ function App() {
               alignItems: "center",
               gap: "10px"
             }}>
-            <LoginButton isDisabled={editing || error}/>
-            <LogoutButton isDisabled={editing || error} logoutUrl={logoutUrl}/>
-            <TokenButton isDisabled={false} setToken={setToken}/>
+              <LogoutButton isDisabled={editing || error} logoutUrl={logoutUrl}/>
+              <LoginButton isDisabled={editing || error}/>
           </Grid>
           <Grid size={12}>
             <InfoBox location={location}/>
-            <p>token: {token}</p>
           </Grid>
         </Auth0Provider>
       </Grid>
