@@ -6,6 +6,8 @@ import {Box, Button, Container, TextField} from "@mui/material";
 import {Auth0Provider} from "@auth0/auth0-react";
 import {AppContext} from "./contexts/AppContext";
 import AuthButtons from "./components/AuthButtons";
+import {isEmpty} from "./utils/Utils";
+import ConfigField from "./components/ConfigField";
 
 function App() {
 
@@ -35,10 +37,6 @@ function App() {
   const [error, setError] = useState(true);
 
   const auth0ProviderKey = `${domain}-${clientId}-${redirectUri}-${logoutUrl}-${audience}-${scope}`;
-
-  const isEmpty = (value: string): boolean => {
-    return value === null || value.trim().length === 0
-  }
 
   const handleSave = (): void => {
     setDomain(tempDomain);
@@ -73,14 +71,6 @@ function App() {
     setEditing(true)
   }
 
-  const handleChange = (
-    setTempValue: (value: React.SetStateAction<string>) => void,
-    setTempValueError: (value: React.SetStateAction<boolean>) => void,
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-    setTempValue(event.target.value);
-    setTempValueError(isEmpty(event.target.value));
-  }
-
   const populateValueFromContext = (
     setContext: (value: React.SetStateAction<string>) => void,
     name: string
@@ -112,10 +102,12 @@ function App() {
     populateValueFromContext(setScope, "scope");
   }, [setDomain, setClientId, setRedirectUri, setLogoutUrl, setAudience, setScope]);
 
+  //check if context is populated
   useEffect(() => {
     setContextPopulated(!checkContextErrors())
   }, [checkContextErrors]);
 
+  //if context is populated, set editing to false
   useEffect(() => {
     if (contextPopulated) setEditing(false);
   }, [contextPopulated]);
@@ -201,18 +193,12 @@ function App() {
             gap: "20px"
           }}
         >
-          <TextField label="domain" helperText={errorDomain ? "cannot be empty" : ""} value={editing ? tempDomain : domain} fullWidth disabled={!editing} error={errorDomain}
-                     onChange={(event) => handleChange(setTempDomain, setErrorDomain, event)}/>
-          <TextField label="clientId" helperText={errorClientId ? "cannot be empty" : ""} value={editing ? tempClientId : clientId} fullWidth disabled={!editing} error={errorClientId}
-                     onChange={(event) => handleChange(setTempClientId, setErrorClientId, event)}/>
-          <TextField label="callbackUrl" helperText={errorRedirectUri ? "cannot be empty" : ""} value={editing ? tempRedirectUri : redirectUri} fullWidth disabled={!editing}
-                     error={errorRedirectUri} onChange={(event) => handleChange(setTempRedirectUri, setErrorRedirectUri, event)}/>
-          <TextField label="logoutUrl" helperText={errorLogoutUrl ? "cannot be empty" : ""} value={editing ? tempLogoutUrl : logoutUrl} fullWidth disabled={!editing}
-                     error={errorLogoutUrl} onChange={(event) => handleChange(setTempLogoutUrl, setErrorLogoutUrl, event)}/>
-          <TextField label="audience" helperText={errorAudience ? "cannot be empty" : ""} value={editing ? tempAudience : audience} fullWidth disabled={!editing}
-                     error={errorAudience} onChange={(event) => handleChange(setTempAudience, setErrorAudience, event)}/>
-          <TextField label="scope" helperText={errorScope ? "cannot be empty" : ""} value={editing ? tempScope : scope} fullWidth disabled={!editing}
-                     error={errorScope} onChange={(event) => handleChange(setTempScope, setErrorScope, event)}/>
+          <ConfigField label={"domain"} editing={editing} value={domain} tempValue={tempDomain} setTempValue={setTempDomain} tempValueError={errorDomain} setTempValueError={setErrorDomain} />
+          <ConfigField label={"clientId"} editing={editing} value={clientId} tempValue={tempClientId} setTempValue={setTempClientId} tempValueError={errorClientId} setTempValueError={setErrorClientId} />
+          <ConfigField label={"callbackUrl"} editing={editing} value={redirectUri} tempValue={tempRedirectUri} setTempValue={setTempRedirectUri} tempValueError={errorRedirectUri} setTempValueError={setErrorRedirectUri} />
+          <ConfigField label={"logoutUrl"} editing={editing} value={logoutUrl} tempValue={tempLogoutUrl} setTempValue={setTempLogoutUrl} tempValueError={errorLogoutUrl} setTempValueError={setErrorLogoutUrl} />
+          <ConfigField label={"audience"} editing={editing} value={audience} tempValue={tempAudience} setTempValue={setTempAudience} tempValueError={errorAudience} setTempValueError={setErrorAudience} />
+          <ConfigField label={"scope"} editing={editing} value={scope} tempValue={tempScope} setTempValue={setTempScope} tempValueError={errorScope} setTempValueError={setErrorScope} />
           {
             editing
               ? <Box sx={{display: "flex", gap: "10px", alignSelf: "end"}}>
